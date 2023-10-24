@@ -27,15 +27,15 @@ let topbarNotification;
 let dateMenu = Main.panel.statusArea.dateMenu;
 
 
-export default class Extension {
+export default class topbarNotificationIcons {
     enable() {
         topbarNotification = new TopbarNotification();
         dateMenu.get_first_child().insert_child_below(topbarNotification, dateMenu._clockDisplay);
     }
 
     disable() {
-         topbarNotification._destroy();
-    topbarNotification = null;
+        topbarNotification._destroy();
+        topbarNotification = null;
     }
 }
 
@@ -60,9 +60,11 @@ const TopbarNotification = GObject.registerClass(
                     let _icon = new St.Icon({
                         icon_name: source._policy.id,
                         icon_size: 18,
-                        style_class: 'topbar-notification-icon'
+                        style_class: 'app-menu-icon topbar-notification-icon',
                     });
+                    _icon.add_effect(new Clutter.DesaturateEffect());
                     this.add_child(_icon);
+                    
                 }
             }
         }
