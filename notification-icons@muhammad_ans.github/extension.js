@@ -18,24 +18,49 @@
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Clutter from 'gi://Clutter';
-import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
-
+import Gio from 'gi://Gio';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 
 let topbarNotification;
 let dateMenu = Main.panel.statusArea.dateMenu;
+let rightSideValue;
+let coloredIconsValue;
 
 
-export default class topbarNotificationIcons {
+export default class topbarNotificationIcons extends Extension {
     enable() {
+
+        this._settings = this.getSettings('org.gnome.shell.extensions.notification-icons');
+        rightSideValue = this._settings.get_boolean('right-side');
+        this._settings.connect('changed::right-side', () => {
+            rightSideValue = this._settings.get_boolean('right-side');
+            this.disable();
+            this.enable();
+        });
+
+        coloredIconsValue = this._settings.get_boolean('colored-icons');
+        this._settings.connect('changed::colored-icons', () => {
+            coloredIconsValue = this._settings.get_boolean('colored-icons');
+            this.disable();
+            this.enable();
+        });
         topbarNotification = new TopbarNotification();
-        dateMenu.get_first_child().insert_child_below(topbarNotification, dateMenu._clockDisplay);
+
+        if (rightSideValue) {
+            dateMenu.get_first_child().insert_child_above(topbarNotification, dateMenu._clockDisplay);
+        } else {
+            dateMenu.get_first_child().insert_child_below(topbarNotification, dateMenu._clockDisplay);
+        }
     }
 
     disable() {
         topbarNotification._destroy();
         topbarNotification = null;
+        this._settings = null;
+        rightSideValue =  null;
+        coloredIconsValue = null;
     }
 }
 
@@ -44,7 +69,7 @@ const TopbarNotification = GObject.registerClass(
         _init() {
             super._init({
                 y_align: Clutter.ActorAlign.CENTER,
-                x_align: Clutter.ActorAlign.CENTER,            
+                x_align: Clutter.ActorAlign.CENTER,
                 visible: true
             });
 
@@ -60,11 +85,14 @@ const TopbarNotification = GObject.registerClass(
                     let _icon = new St.Icon({
                         icon_name: source._policy.id,
                         icon_size: 18,
-                        style_class: 'app-menu-icon topbar-notification-icon',
+                        style_class: 'topbar-notification-icon',
                     });
-                    _icon.add_effect(new Clutter.DesaturateEffect());
+                    if (!coloredIconsValue) {
+                        _icon.add_style_class_name('app-menu-icon');
+                        _icon.add_effect(new Clutter.DesaturateEffect());
+                    }
                     this.add_child(_icon);
-                    
+
                 }
             }
         }

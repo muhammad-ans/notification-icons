@@ -2,8 +2,10 @@
   "name": "Top Panel Notification Icons Revived",
   "description": "Displays notifications icon in top panel",
   "uuid": "notification-icons@muhammad_ans.github",
+  "url": "https://github.com/muhammad-ans/notification-icons",
+  "settings-schema": "org.gnome.shell.extensions.notification-icons",
   "shell-version": [
     "45"
   ],
-  "url": "https://github.com/muhammad-ans/notification-icons"
+  "version": 4
 }

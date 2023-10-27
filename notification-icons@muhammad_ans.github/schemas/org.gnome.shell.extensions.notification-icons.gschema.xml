@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.notification-icons" path="/org/gnome/shell/extensions/notification-icons/">
+    <key name="colored-icons" type="b">
+      <default>false</default>
+    </key>
+    <key name="right-side" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+</schemalist>
