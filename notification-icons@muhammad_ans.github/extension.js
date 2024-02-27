@@ -32,7 +32,7 @@ let coloredIconsValue;
 export default class topbarNotificationIcons extends Extension {
     enable() {
 
-        this._settings = this.getSettings('org.gnome.shell.extensions.notification-icons');
+        this._settings = this.getSettings();
         rightSideValue = this._settings.get_boolean('right-side');
         this._settings.connect('changed::right-side', () => {
             rightSideValue = this._settings.get_boolean('right-side');
