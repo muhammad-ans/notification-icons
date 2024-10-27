@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema id="org.gnome.shell.extensions.notification-icons" path="/org/gnome/shell/extensions/notification-icons/">
+  <enum id="dnd-option-enum">
+    <value nick="always" value="0" />
+    <value nick="urgent" value="1" />
+    <value nick="never" value="2" />
+  </enum>
+  <schema id="org.gnome.shell.extensions.notification-icons"
+    path="/org/gnome/shell/extensions/notification-icons/">
+
     <key name="colored-icons" type="b">
       <default>false</default>
+      <summary>Toggle between colored and symbolic icons.</summary>
     </key>
+
     <key name="right-side" type="b">
       <default>false</default>
+      <summary>Show icons on the right side.</summary>
     </key>
+
+    <key name="dnd-mode" type="i">
+      <default>0</default>
+      <summary>Stores the DND mode, Behaviour</summary>
+      <description>It stores whether icons would be displayed in dnd mode or not.</description>
+    </key>
+
   </schema>
 </schemalist>
